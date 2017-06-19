@@ -134,7 +134,7 @@ def find_factor(semi_prime, lower, upper):
                 
                 # try this prime to see if it is a factor
                 if (factor1 * factor2 == semi_prime):
-#                    print ('%i * %i = %i' % (factor1, factor2, factor1*factor2))
+                    #print ('%i * %i = %i' % (factor1, factor2, factor1*factor2))
                     return (factor1, factor2)
 
         lower = lower + 2    # skip even factors because they can't be prime
@@ -145,16 +145,12 @@ def find_factor(semi_prime, lower, upper):
 
 # main loop
 if __name__ == '__main__':
-    import random, math, argparse
+    import random, math
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("semi_prime", type=int, help="semi-prime number")
-    parser.add_argument("chunk_scale", type=int, help="chunk size = chunk_scale * log(semi-prime)")
-    args = parser.parse_args()
-
-    # this is the number we hve been given to factor
-    semi_prime = args.semi_prime
-    chunk_scale = args.chunk_scale
+    # this is the number we have been given to factor
+    semi_prime = int( input( "What semi-prime number do you want to try and factor? " ) )
+    # chunk size = chunk_scale * log(semi-prime)
+    chunk_scale = int( input( "What scale of search chunk size do you want? (generally 100 - 1000) ") )
 
     # assume that the prime factors are roughly the same length
     # we can start our search from the square root
@@ -163,7 +159,6 @@ if __name__ == '__main__':
     upper = semi_prime / 2             # make sure we seach far enough
 
     # the chunk size is the search space starting from 'lower'
-    #chunk = int (0.0000000001 * lower)
     chunk = int ( chunk_scale * math.log(semi_prime) )
 
     # search for prime factors between the lower and upper limits
@@ -184,4 +179,3 @@ if __name__ == '__main__':
 
     # report the outcome
     if (found == False): print ('no factors found')
-

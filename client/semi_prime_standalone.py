@@ -125,19 +125,19 @@ def MillerRabinPrimalityTest(number):
 
 # main loop
 if __name__ == '__main__':
-    import random, math, argparse
+    import random, math
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("power1", type=int, help="number of digits for prime factor1")
-    parser.add_argument("power2", type=int, help="number of digits for prime factor2")
-    args = parser.parse_args()
+    # same number of digits are use for both primes
+    power1 = int( input( "How many digits in each Prime? " ) )
+    power2 = power1
 
-    power1 = args.power1
-    power2 = args.power2
+    if (power1 > 16): # avoid too large
+        print('Max we can handle with standard precision is 16, cannot continue')
+        exit(0)
 
     if (power1 == 0) or (power2 == 0): # avoid zero
         print('One of the factors was zero, cannot continue')
-        exit
+        exit(0)
 
     # select prime factor 1 with this number of digits
     factor1 = int(random.uniform(pow(10, power1 - 1), pow(10, power1)))

@@ -32,9 +32,10 @@ def compute(s, n):
 
     return(inside)
 
+
 # main 
 if __name__ == '__main__':
-    import random, argparse
+    import random, argparse, decimal
 
     parser = argparse.ArgumentParser()
     parser.add_argument("no_of_points", type=int, help="number of random points to include in each job")
@@ -58,5 +59,6 @@ if __name__ == '__main__':
 
     # calclate the estimated value of Pi
     total_no_of_points = no_of_points * no_of_jobs
-    Pi = (4.0 * total_inside) / total_no_of_points
-    print(('value of Pi is estimated to be %s using %s points' % (Pi, total_no_of_points) ))
+    decimal.getcontext().prec = 100  # override standard precision
+    Pi = decimal.Decimal(4 * total_inside / total_no_of_points)
+    print(('value of Pi is estimated to be %s using %s points' % (+Pi, total_no_of_points) ))

@@ -61,7 +61,7 @@ def job_callback(job): # executed at the client
 
 # main 
 if __name__ == '__main__':
-    import dispy, random, argparse, resource, threading, logging
+    import dispy, random, argparse, resource, threading, logging, decimal
 
     # set lower and upper bounds as appropriate
     # lower_bound is at least num of cpus and upper_bound is roughly 3x lower_bound
@@ -114,8 +114,9 @@ if __name__ == '__main__':
 
     # calclate the estimated value of Pi
     total_no_of_points = no_of_points * no_of_jobs
-    Pi = (4.0 * total_inside) / total_no_of_points
-    print(('value of Pi is estimated to be %f using %i points' % (Pi, total_no_of_points) ))
+    decimal.getcontext().prec = 100  # override standard precision
+    Pi = decimal.Decimal(4 * total_inside / total_no_of_points)
+    print(('value of Pi is estimated to be %s using %i points' % (Pi, total_no_of_points) ))
 
     cluster.print_status()
     cluster.close()
