@@ -2,18 +2,18 @@
 
 # All original code: Crown Copyright 2016, 2017 
 
-# show usage, requires "reboot" or "shutdown" as a parameter
+# show usage, requires parameters such as "reboot" or "shutdown"
 if [ -z "$1" ]; then
-    echo "usage: $0 reboot/shutdown/unicorn/scp"
+    echo "usage: $0 reboot/shutdown/date/unicorn/scp"
     exit
 fi
 
 if [ "$1" = "reboot" ]; then
     echo "rebooting cluster"
-    ACTION="/home/pi/stop_dispy.sh; sudo reboot"
+    ACTION="sudo reboot"
 elif [ "$1" = "shutdown" ]; then
     echo "shutting down cluster"
-    ACTION="/home/pi/stop_dispy.sh; sudo shutdown -HP now"
+    ACTION="sudo shutdown -HP now"
 elif [ "$1" = "unicorn" ]; then
     echo running specified unicorn HAT script
     ACTION="/home/pi/start_unicorn.sh $2"
