@@ -28,8 +28,11 @@ def compute(n):
     return (host, n)
 
 if __name__ == '__main__':
-    import dispy, random
-    cluster = dispy.JobCluster(compute, nodes='192.168.1.*')
+    import dispy, random, socket
+    # fetch the IP address of the client
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80)) # doesn't matter if 8.8.8.8 can't be reached
+    cluster = dispy.JobCluster(compute,ip_addr=s.getsockname()[0], nodes='192.168.1.*')
     jobs = []
     for i in range(16):
         # schedule execution of 'compute' on a node (running 'dispynode')
