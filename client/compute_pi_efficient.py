@@ -61,7 +61,7 @@ def job_callback(job): # executed at the client
 
 # main 
 if __name__ == '__main__':
-    import dispy, random, argparse, resource, threading, logging, decimal
+    import dispy, random, argparse, resource, threading, logging, decimal, socket
 
     # set lower and upper bounds as appropriate
     # lower_bound is at least num of cpus and upper_bound is roughly 3x lower_bound
@@ -83,7 +83,9 @@ if __name__ == '__main__':
     # use Condition variable to protect access to pending_jobs, as
     # 'job_callback' is executed in another thread
     jobs_cond = threading.Condition()
-    cluster = dispy.JobCluster(compute, nodes=server_nodes, callback=job_callback, loglevel=logging.INFO)
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80)) # doesn't matter if 8.8.8.8 can't be reached
+    cluster = dispy.JobCluster(compute, nodes=server_nodes, callback=job_callback, ip_addr=s.getsockname()[0], loglevel=logging.INFO)
     pending_jobs = {}
 
     print(('submitting %i jobs of %i points each to %s' % (no_of_jobs, no_of_points, server_nodes)))
