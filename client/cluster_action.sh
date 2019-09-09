@@ -32,12 +32,12 @@ if [ -e "ip_list" ]; then
 else
     # discover all IPs on this network
     echo "obtaining IPs on this network and generating new ip_list..." 
-    nmap -sP 192.168.1.* | grep 'report for' | awk -F' ' '{print $5}' > /home/pi/ip_list
+nmap -n -sn 192.168.1.* -oG - | awk '/Up$/{print $2}' | tee ip_list
 fi
 
 # for each active IP that is not the router or the client
 for i in $(cat ip_list); do
-    if [ $i = "192.168.1.1" ]; then
+    if [ $i = "192.168.1.254" ]; then
         echo "ignoring router $i"
     elif [ $i = $(hostname -I)]; then
         echo "ignoring client node $i"
@@ -48,6 +48,7 @@ for i in $(cat ip_list); do
 	    scp $2 pi@$i:$3   # $2 is source filename, $3 is full destination
         else
             ssh -f $i $ACTION &
+	    echo "$ACTION $i"
         fi
     fi
 done
