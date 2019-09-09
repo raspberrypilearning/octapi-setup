@@ -37,7 +37,7 @@ fi
 
 # for each active IP that is not the router or the client
 for i in $(cat ip_list); do
-    if [ $i = "192.168.1.254" ]; then
+    if [ $i = "192.168.1.1" ]; then
         echo "ignoring router $i"
     elif [ $i = $(hostname -I)]; then
         echo "ignoring client node $i"
